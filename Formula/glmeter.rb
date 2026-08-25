@@ -12,17 +12,17 @@ class Glmeter < Formula
   on_macos do
     if Hardware::CPU.intel?
       url "https://github.com/crazykun/GLMeter/releases/download/v0.1.0/glmeter-macos-x86_64.tar.gz"
-      sha256 "b2a4f6b0da193fe3036de8ed8299a740a02049071ba999faf968f6acf2168001"
+      sha256 "aecd3a0fae35e38f47d723935b0450fbcf22ced60ad1d8e6f419cf821ebabf42"
     else
       url "https://github.com/crazykun/GLMeter/releases/download/v0.1.0/glmeter-macos-aarch64.tar.gz"
-      sha256 "9be2b437af05b3ae915fc6acbc30bef776bcee564d531355e5b3a2f42f8e79d4"
+      sha256 "a0e6d0f9e8d885b8916f39c7963fe0023c16dcc362716a1fad69ffb85896c385"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
       url "https://github.com/crazykun/GLMeter/releases/download/v0.1.0/glmeter-linux-x86_64.tar.gz"
-      sha256 "89a285a2687bad6fea5ca7011b3c3bd6ddec3dccf9c1bc7a5711e81f70b314b5"
+      sha256 "a96a6a640167546257bb6c8aa708b74014f0162530d23a5542f2c960707b938c"
     else
       depends_on arch: :x86_64
     end
