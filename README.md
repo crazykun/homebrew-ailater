@@ -2,7 +2,7 @@
 
 个人 Homebrew tap，收录自研小工具。
 
-| Formula | 说明 |
+| Formula / Cask | 说明 |
 |---|---|
 | [`lscreen`](https://github.com/crazykun/LaterScreen) | 跨平台截图标注工具：截图、标注、取色、二维码识别、OCR、录屏 |
 | [`glmeter`](https://github.com/crazykun/GLMeter) | GLM Coding Plan 配额托盘监控：5 小时额度进度条、重置倒计时、一键/定时激活、`--check` 命令行模式 |
@@ -13,18 +13,20 @@
 brew tap crazykun/ailater
 ```
 
-然后安装需要的工具：
+GLMeter 有两种安装形态，二选一：
 
 ```bash
-brew install lscreen   # LaterScreen 截图标注
-brew install glmeter   # GLMeter 配额托盘
+# Cask：安装 GLMeter.app 到 /Applications（菜单栏常驻，适合日常使用）
+brew install --cask crazykun/ailater/glmeter
+
+# Formula：仅安装命令行二进制（适合搭配脚本/brew services）
+brew install crazykun/ailater/glmeter
 ```
 
-或一步到位：
+其他工具：
 
 ```bash
-brew install crazykun/ailater/lscreen
-brew install crazykun/ailater/glmeter
+brew install lscreen   # LaterScreen 截图标注（命令行 + 托盘）
 ```
 
 ## lscreen 使用
