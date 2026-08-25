@@ -4,8 +4,8 @@
 
 | Formula / Cask | 说明 |
 |---|---|
-| [`lscreen`](https://github.com/crazykun/LaterScreen) | 跨平台截图标注工具：截图、标注、取色、二维码识别、OCR、录屏 |
-| [`glmeter`](https://github.com/crazykun/GLMeter) | GLM Coding Plan 配额托盘监控：5 小时额度进度条、重置倒计时、一键/定时激活、`--check` 命令行模式 |
+| [`lscreen`](https://github.com/crazykun/LaterScreen) | 跨平台截图标注工具：截图、标注、取色、二维码识别、OCR、录屏（Cask 装 LaterScreen.app） |
+| [`glmeter`](https://github.com/crazykun/GLMeter) | GLM Coding Plan 配额托盘监控：5 小时额度进度条、重置倒计时、一键/定时激活、`--check` 命令行模式（Cask 装 GLMeter.app） |
 
 ## 安装
 
@@ -13,20 +13,16 @@
 brew tap crazykun/ailater
 ```
 
-GLMeter 有两种安装形态，二选一：
+两个工具都有 **Cask（.app 应用）** 和 **Formula（命令行）** 两种形态，按需选择：
 
 ```bash
-# Cask：安装 GLMeter.app 到 /Applications（菜单栏常驻，适合日常使用）
+# Cask：安装到 /Applications（菜单栏/托盘常驻，适合日常使用）
 brew install --cask crazykun/ailater/glmeter
+brew install --cask crazykun/ailater/lscreen
 
-# Formula：仅安装命令行二进制（适合搭配脚本/brew services）
+# Formula：仅安装命令行二进制（适合搭配脚本使用）
 brew install crazykun/ailater/glmeter
-```
-
-其他工具：
-
-```bash
-brew install lscreen   # LaterScreen 截图标注（命令行 + 托盘）
+brew install crazykun/ailater/lscreen
 ```
 
 ## lscreen 使用
