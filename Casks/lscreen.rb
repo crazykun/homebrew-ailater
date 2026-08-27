@@ -21,5 +21,11 @@ cask "lscreen" do
 
   app "LaterScreen.app"
 
+  # 移除隔离属性，避免 macOS 提示“已损坏，无法打开”或“无法验证开发者”
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args: ["-dr", "com.apple.quarantine", "#{appdir}/LaterScreen.app"]
+  end
+
   zap trash: "~/.config/lscreen"
 end
