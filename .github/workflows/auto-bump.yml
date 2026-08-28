@@ -1,8 +1,11 @@
-name: Auto-bump glmeter formula
+name: Auto-bump formulas
 
-# 定时轮询 GLMeter 最新 Release，与 Formula 版本不一致时自动更新
-# version + 三个 tar.gz 的 url/sha256，commit & push。
+# 定时轮询各上游仓库最新 Release，Formula 版本落后时自动更新
+# version + 各资产 url/sha256，commit & push。
 # 使用本仓库自带 GITHUB_TOKEN（contents:write），无需任何 PAT。
+#
+# 新增 formula 只需在 FORMULAS 表加一行 "formula名:上游仓库"。
+# 资产文件名（含内嵌版本号的命名，如 foo-v1.2.3-x86_64.tar.gz）自动推算并校验。
 
 on:
   schedule:
@@ -11,6 +14,10 @@ on:
 
 permissions:
   contents: write
+
+concurrency:
+  group: auto-bump
+  cancel-in-progress: false
 
 jobs:
   bump:
@@ -21,44 +28,47 @@ jobs:
       - name: Check and bump
         env:
           GH_TOKEN: ${{ github.token }}
-          UPSTREAM: crazykun/GLMeter
-          FORMULA: Formula/glmeter.rb
         run: |
           set -euo pipefail
 
-          LATEST=$(gh release view --repo "$UPSTREAM" -q .tag_name | sed 's/^v//')
-          CURRENT=$(grep -oP '(?<=^  version ")[^"]+' "$FORMULA")
-          echo "formula=$CURRENT latest=$LATEST"
-
-          if [ "$LATEST" = "$CURRENT" ]; then
-            echo "Up to date, nothing to do."
-            exit 0
-          fi
-
-          declare -A SHA
-          for f in macos-x86_64 macos-aarch64 linux-x86_64; do
-            SHA[$f]=$(curl -sL "https://github.com/$UPSTREAM/releases/download/v${LATEST}/glmeter-${f}.tar.gz" | sha256sum | cut -d' ' -f1)
-            echo "glmeter-${f}.tar.gz ${SHA[$f]}"
-          done
-
-          python3 - "$FORMULA" "$CURRENT" "$LATEST" \
-            "${SHA[macos-x86_64]}" "${SHA[macos-aarch64]}" "${SHA[linux-x86_64]}" <<'EOF'
-          import re, sys
-          path, old, new, *shas = sys.argv[1:]
-          s = open(path).read()
-          s = s.replace(f'version "{old}"', f'version "{new}"')
-          for f, sha in zip(("macos-x86_64", "macos-aarch64", "linux-x86_64"), shas):
-              s = re.sub(
-                  rf'releases/download/v{re.escape(old)}/glmeter-{f}\.tar\.gz"\n\s+sha256 "[0-9a-f]+"',
-                  f'releases/download/v{new}/glmeter-{f}.tar.gz"\n      sha256 "{sha}"',
-                  s,
-              )
-          open(path, "w").write(s)
-          EOF
+          # formula 名 : 上游仓库（crazykun/ 前缀省略）
+          FORMULAS=(
+            "glmeter:GLMeter"
+            "lscreen:LaterScreen"
+          )
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$FORMULA"
-          git commit -m "glmeter ${LATEST}"
-          git push
-          echo "Bumped $CURRENT -> $LATEST"
+
+          for entry in "${FORMULAS[@]}"; do
+            NAME="${entry%%:*}"
+            UPSTREAM="crazykun/${entry##*:}"
+            FORMULA="Formula/${NAME}.rb"
+            echo "=== $NAME <- $UPSTREAM ==="
+
+            LATEST=$(gh release view --repo "$UPSTREAM" --json tagName -q .tagName | sed 's/^v//')
+            CURRENT=$(grep -oP '(?<=^  version ")[^"]+' "$FORMULA")
+            echo "formula=$CURRENT latest=$LATEST"
+
+            if [ "$LATEST" = "$CURRENT" ]; then
+              echo "Up to date, skip."
+              continue
+            fi
+
+            gh release view --repo "$UPSTREAM" --json assets -q '.assets[].name' > /tmp/assets.txt
+
+            python3 .github/scripts/bump_formula.py \
+              "$FORMULA" "$UPSTREAM" "$CURRENT" "$LATEST" /tmp/assets.txt
+
+            git add "$FORMULA"
+            git commit -m "${NAME} ${LATEST}"
+            echo "Bumped $NAME $CURRENT -> $LATEST"
+          done
+
+          AHEAD=$(git rev-list --count @{u}..HEAD)
+          if [ "$AHEAD" -gt 0 ]; then
+            git push
+            echo "Pushed $AHEAD commit(s)."
+          else
+            echo "Nothing to push."
+          fi
