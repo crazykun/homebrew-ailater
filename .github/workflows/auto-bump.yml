@@ -1,0 +1,64 @@
+name: Auto-bump glmeter formula
+
+# 定时轮询 GLMeter 最新 Release，与 Formula 版本不一致时自动更新
+# version + 三个 tar.gz 的 url/sha256，commit & push。
+# 使用本仓库自带 GITHUB_TOKEN（contents:write），无需任何 PAT。
+
+on:
+  schedule:
+    - cron: "23 * * * *" # 每小时 :23（错峰）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check and bump
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UPSTREAM: crazykun/GLMeter
+          FORMULA: Formula/glmeter.rb
+        run: |
+          set -euo pipefail
+
+          LATEST=$(gh release view --repo "$UPSTREAM" -q .tag_name | sed 's/^v//')
+          CURRENT=$(grep -oP '(?<=^  version ")[^"]+' "$FORMULA")
+          echo "formula=$CURRENT latest=$LATEST"
+
+          if [ "$LATEST" = "$CURRENT" ]; then
+            echo "Up to date, nothing to do."
+            exit 0
+          fi
+
+          declare -A SHA
+          for f in macos-x86_64 macos-aarch64 linux-x86_64; do
+            SHA[$f]=$(curl -sL "https://github.com/$UPSTREAM/releases/download/v${LATEST}/glmeter-${f}.tar.gz" | sha256sum | cut -d' ' -f1)
+            echo "glmeter-${f}.tar.gz ${SHA[$f]}"
+          done
+
+          python3 - "$FORMULA" "$CURRENT" "$LATEST" \
+            "${SHA[macos-x86_64]}" "${SHA[macos-aarch64]}" "${SHA[linux-x86_64]}" <<'EOF'
+          import re, sys
+          path, old, new, *shas = sys.argv[1:]
+          s = open(path).read()
+          s = s.replace(f'version "{old}"', f'version "{new}"')
+          for f, sha in zip(("macos-x86_64", "macos-aarch64", "linux-x86_64"), shas):
+              s = re.sub(
+                  rf'releases/download/v{re.escape(old)}/glmeter-{f}\.tar\.gz"\n\s+sha256 "[0-9a-f]+"',
+                  f'releases/download/v{new}/glmeter-{f}.tar.gz"\n      sha256 "{sha}"',
+                  s,
+              )
+          open(path, "w").write(s)
+          EOF
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$FORMULA"
+          git commit -m "glmeter ${LATEST}"
+          git push
+          echo "Bumped $CURRENT -> $LATEST"
