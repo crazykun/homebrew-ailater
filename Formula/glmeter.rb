@@ -1,7 +1,7 @@
 class Glmeter < Formula
   desc "GLM Coding Plan quota tray monitor: 5h window, reset countdown, one-click activation"
   homepage "https://github.com/crazykun/GLMeter"
-  version "0.1.1"
+  version "0.2.1"
   license "MIT"
 
   livecheck do
@@ -11,18 +11,18 @@ class Glmeter < Formula
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/crazykun/GLMeter/releases/download/v0.1.1/glmeter-macos-x86_64.tar.gz"
-      sha256 "44084ed22740aac915bfdc7abb4e23cbee831768f2eea5040157ba77ad3c0279"
+      url "https://github.com/crazykun/GLMeter/releases/download/v0.2.1/glmeter-macos-x86_64.tar.gz"
+      sha256 "4da13e2d540ef7589b58616e3de12876d2579c56597f38b212c082898d613f06"
     else
-      url "https://github.com/crazykun/GLMeter/releases/download/v0.1.1/glmeter-macos-aarch64.tar.gz"
-      sha256 "ee173f9f8cff7fd9a5f1d1d275b414b8706a981dd85806c95cb224a4a3a39425"
+      url "https://github.com/crazykun/GLMeter/releases/download/v0.2.1/glmeter-macos-aarch64.tar.gz"
+      sha256 "ecc561db90afb94e60e7845a8c892fb0af1391d88434b3f8841fe3b03fd0a365"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
-      url "https://github.com/crazykun/GLMeter/releases/download/v0.1.1/glmeter-linux-x86_64.tar.gz"
-      sha256 "8c2d0823936240b9cf95574e23fd14576577f5134c2505c466b36c5841cb622b"
+      url "https://github.com/crazykun/GLMeter/releases/download/v0.2.1/glmeter-linux-x86_64.tar.gz"
+      sha256 "67307b5cedbf526ade72d608c06bafc2968f2ddbff79c4f10f796fd709ecd075"
     else
       depends_on arch: :x86_64
     end
