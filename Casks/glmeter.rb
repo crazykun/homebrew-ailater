@@ -1,9 +1,9 @@
 cask "glmeter" do
   arch arm: "aarch64", intel: "x86_64"
 
-  version "0.2.4"
-  sha256 arm:   "150af1ea904ef8a382cfd18348d4df74c96189169d4c601ca51fecfc9096692b",
-         intel: "236b3532eec5b61f07f5a5d7eb3155197afa574fb46befe56d5ddf4c92e7dffb"
+  version "0.2.5"
+  sha256 arm:   "26ef848e57c12d9eb54c7f0764a320e66196b5298342ad40b3fee6a60926ba5b",
+         intel: "0ca69d1ea951d6a51c0f7836fc5d71d78d05e1ba5368836c0216c31e680277a3"
 
   url "https://github.com/crazykun/GLMeter/releases/download/v#{version}/glmeter-macos-#{arch}.dmg"
   name "GLMeter"
