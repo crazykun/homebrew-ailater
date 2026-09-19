@@ -23,8 +23,8 @@ cask "glmeter" do
 
   # 移除隔离属性，避免 macOS 提示“已损坏，无法打开”或“无法验证开发者”
   postflight_steps do
-    system_command "/usr/bin/xattr",
-                   args: ["-dr", "com.apple.quarantine", "#{appdir}/GLMeter.app"]
+    run "/usr/bin/xattr",
+        args: ["-dr", "com.apple.quarantine", "{{appdir}}/GLMeter.app"]
   end
 
   zap trash: "~/.config/glmeter"
