@@ -1,11 +1,10 @@
 cask "lscreen" do
-  arch arm: "aarch64", intel: "x86_64"
+  version "0.11.0"
+  # v0.8.0 起 dmg 只出 universal2 单包（package.sh 双架构 lipo 合一），
+  # 按架构拼 URL 的旧写法 404——cask 因此停在 0.6.0
+  sha256 "2c934acde70608682db4c4cec5be9fd14c37ec29bdfbcf1376554253d0c54ba5"
 
-  version "0.6.0"
-  sha256 arm:   "24e4d27003bfd018e4f92ec6c586aa71abaf2da5dd809d4b7c72903ef3224fc3",
-         intel: "8e039f51e0f71d1666050a5751bb3c36390c59d66ead0f1a38ef350ab70e667b"
-
-  url "https://github.com/crazykun/LaterScreen/releases/download/v#{version}/lscreen-v#{version}-#{arch}-apple-darwin.dmg"
+  url "https://github.com/crazykun/LaterScreen/releases/download/v#{version}/lscreen-v#{version}-universal2-apple-darwin.dmg"
   name "LaterScreen"
   desc "Cross-platform screenshot & annotation tool"
   homepage "https://github.com/crazykun/LaterScreen"
