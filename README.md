@@ -6,6 +6,7 @@
 |---|---|
 | [`lscreen`](https://github.com/crazykun/LaterScreen) | 跨平台截图标注工具：截图、标注、取色、二维码识别、OCR、录屏（Cask 装 LaterScreen.app） |
 | [`glmeter`](https://github.com/crazykun/GLMeter) | GLM Coding Plan 配额托盘监控：5 小时额度进度条、重置倒计时、一键/定时激活、`--check` 命令行模式（Cask 装 GLMeter.app） |
+| [`latermd`](https://github.com/ailater/LaterMd) | 跨平台 Markdown 知识工作台：双栏实时预览 / Live Preview、多标签、文件树、大纲、全文搜索、AI 流式写作（Mock 可试）、Git 只读集成、MCP 服务器（仅 Cask） |
 
 ## 安装
 
@@ -13,12 +14,13 @@
 brew tap crazykun/ailater
 ```
 
-两个工具都有 **Cask（.app 应用）** 和 **Formula（命令行）** 两种形态，按需选择：
+lscreen / glmeter 都有 **Cask（.app 应用）** 和 **Formula（命令行）** 两种形态；latermd 是 GUI 应用，只提供 Cask：
 
 ```bash
 # Cask：安装到 /Applications（菜单栏/托盘常驻，适合日常使用）
 brew install --cask crazykun/ailater/glmeter
 brew install --cask crazykun/ailater/lscreen
+brew install --cask crazykun/ailater/latermd
 
 # Formula：仅安装命令行二进制（适合搭配脚本使用）
 brew install crazykun/ailater/glmeter
@@ -48,3 +50,10 @@ brew install crazykun/ailater/lscreen
 ```bash
 brew update && brew upgrade
 ```
+
+## latermd 使用
+
+- `latermd` —— 打开 LaterMD 主窗口：左侧文件树 / 大纲 / 搜索，中间源码编辑，右侧实时预览
+- 设置里可配 AI API key（未配时走 Mock 演示）、主题/皮肤/密度、快捷键、MCP 服务器（默认关闭，仅绑 127.0.0.1）
+- 支持 `[[wikilink]]` 双向链接、HTML 导出、Git 只读状态/历史/diff/blame
+- 版本更新：`brew upgrade --cask crazykun/ailater/latermd`（livecheck 自动跟进 GitHub 最新 Release）
