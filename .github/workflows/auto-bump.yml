@@ -1,11 +1,16 @@
-name: Auto-bump formulas
+name: Auto-bump formulas and casks
 
-# 定时轮询各上游仓库最新 Release，Formula 版本落后时自动更新
-# version + 各资产 url/sha256，commit & push。
+# 定时轮询各上游仓库最新 Release，Formula/Cask 版本落后时自动更新
+# version + 资产 url/sha256，commit & push。
 # 使用本仓库自带 GITHUB_TOKEN（contents:write），无需任何 PAT。
 #
 # 新增 formula 只需在 FORMULAS 表加一行 "formula名:上游仓库"。
 # 资产文件名（含内嵌版本号的命名，如 foo-v1.2.3-x86_64.tar.gz）自动推算并校验。
+#
+# 新增 cask 在 CASKS 表加一行 "cask名:上游完整slug"（不限定 crazykun/ 前缀）。
+# Cask 的 url 是 v#{version} 插值模板永不改动，只更新 version + sha256 两行；
+# sha256 从 GitHub Release asset 的 digest 字段直接读取（免下载），
+# 因此上游 dmg 不能携带 .sha256 伴随文件也能跟版（如 ailater/LaterMd）。
 
 on:
   schedule:
@@ -37,6 +42,12 @@ jobs:
             "lscreen:LaterScreen"
           )
 
+          # cask 名 : 上游仓库完整 slug
+          CASKS=(
+            "latermd:ailater/LaterMd"
+            "lscreen:crazykun/LaterScreen"
+          )
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
@@ -63,6 +74,39 @@ jobs:
             git add "$FORMULA"
             git commit -m "${NAME} ${LATEST}"
             echo "Bumped $NAME $CURRENT -> $LATEST"
+          done
+
+          for entry in "${CASKS[@]}"; do
+            NAME="${entry%%:*}"
+            UPSTREAM="${entry##*:}"
+            CASK="Casks/${NAME}.rb"
+            echo "=== cask $NAME <- $UPSTREAM ==="
+
+            LATEST=$(gh release view --repo "$UPSTREAM" --json tagName -q .tagName | sed 's/^v//')
+            CURRENT=$(grep -oP '(?<=^  version ")[^"]+' "$CASK")
+            echo "cask=$CURRENT latest=$LATEST"
+
+            if [ "$LATEST" = "$CURRENT" ]; then
+              echo "Up to date, skip."
+              continue
+            fi
+
+            # 资产名从 cask url 模板推算（#{version} → 实际版本），与脚本内校验同源
+            TEMPLATE=$(grep -oP '(?<=releases/download/v\#\{version\}/)[^"]+' "$CASK")
+            ASSET=$(echo "$TEMPLATE" | sed "s/#{version}/$LATEST/g")
+            DIGEST=$(gh api "repos/$UPSTREAM/releases/tags/v$LATEST" \
+              --jq ".assets[] | select(.name==\"$ASSET\") | .digest")
+            case "$DIGEST" in
+              sha256:*) DIGEST="${DIGEST#sha256:}" ;;
+              *) echo "ERROR: $ASSET has no sha256 digest in $UPSTREAM v$LATEST" >&2; exit 1 ;;
+            esac
+
+            python3 .github/scripts/bump_cask.py \
+              "$CASK" "$CURRENT" "$LATEST" "$ASSET" "$DIGEST"
+
+            git add "$CASK"
+            git commit -m "${NAME} ${LATEST}"
+            echo "Bumped cask $NAME $CURRENT -> $LATEST"
           done
 
           AHEAD=$(git rev-list --count @{u}..HEAD)
