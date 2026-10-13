@@ -14,18 +14,20 @@
 brew tap crazykun/ailater
 ```
 
-lscreen / glmeter 都有 **Cask（.app 应用）** 和 **Formula（命令行）** 两种形态；latermd 是 GUI 应用，只提供 Cask：
+**推荐 Formula（命令行二进制）**：跟版最及时、无 .app 包裹，托盘工具直接运行即可常驻菜单栏；latermd 是 GUI 应用，只提供 Cask：
 
 ```bash
-# Cask：安装到 /Applications（菜单栏/托盘常驻，适合日常使用）
+# Formula（推荐）：命令行二进制，托盘工具直接运行即可常驻菜单栏
+brew install crazykun/ailater/glmeter
+brew install crazykun/ailater/lscreen
+
+# Cask：安装 .app 到 /Applications（适合依赖 Launchpad / 登录项的工作流）
 brew install --cask crazykun/ailater/glmeter
 brew install --cask crazykun/ailater/lscreen
 brew install --cask crazykun/ailater/latermd
-
-# Formula：仅安装命令行二进制（适合搭配脚本使用）
-brew install crazykun/ailater/glmeter
-brew install crazykun/ailater/lscreen
 ```
+
+> 同一工具的 Formula 和 Cask 是两个独立包，**不要同时安装**——版本可能不同步，托盘类工具还会双开混淆。
 
 ## lscreen 使用
 
@@ -45,7 +47,7 @@ brew install crazykun/ailater/lscreen
 
 ## 更新
 
-发新版后本 tap 的 Formula 会同步更新：
+发新版后本 tap 的 Formula / Cask 都由 auto-bump 每小时自动同步 GitHub 最新 Release：
 
 ```bash
 brew update && brew upgrade
