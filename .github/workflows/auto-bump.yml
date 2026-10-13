@@ -44,6 +44,7 @@ jobs:
 
           # cask 名 : 上游仓库完整 slug
           CASKS=(
+            "glmeter:crazykun/GLMeter"
             "latermd:ailater/LaterMd"
             "lscreen:crazykun/LaterScreen"
           )
@@ -91,18 +92,36 @@ jobs:
               continue
             fi
 
-            # 资产名从 cask url 模板推算（#{version} → 实际版本），与脚本内校验同源
+            # 资产名从 cask url 模板推算（#{version} → 实际版本），与脚本内校验同源；
+            # 模板含 #{arch} 的分架构 cask（sha256 arm:/intel: 双行）按架构逐个查 digest
             TEMPLATE=$(grep -oP '(?<=releases/download/v\#\{version\}/)[^"]+' "$CASK")
-            ASSET=$(echo "$TEMPLATE" | sed "s/#{version}/$LATEST/g")
-            DIGEST=$(gh api "repos/$UPSTREAM/releases/tags/v$LATEST" \
-              --jq ".assets[] | select(.name==\"$ASSET\") | .digest")
-            case "$DIGEST" in
-              sha256:*) DIGEST="${DIGEST#sha256:}" ;;
-              *) echo "ERROR: $ASSET has no sha256 digest in $UPSTREAM v$LATEST" >&2; exit 1 ;;
-            esac
+            if grep -q '#\{arch\}' "$CASK"; then
+              PAIRS=""
+              for pair in arm:aarch64 intel:x86_64; do
+                KEY="${pair%%:*}"; ARCH="${pair##*:}"
+                ASSET=$(sed -e "s/#{version}/$LATEST/g" -e "s/#{arch}/$ARCH/g" <<<"$TEMPLATE")
+                DIGEST=$(gh api "repos/$UPSTREAM/releases/tags/v$LATEST" \
+                  --jq ".assets[] | select(.name==\"$ASSET\") | .digest")
+                case "$DIGEST" in
+                  sha256:*) DIGEST="${DIGEST#sha256:}" ;;
+                  *) echo "ERROR: $ASSET has no sha256 digest in $UPSTREAM v$LATEST" >&2; exit 1 ;;
+                esac
+                PAIRS="$PAIRS $KEY:$DIGEST"
+              done
+              python3 .github/scripts/bump_cask.py \
+                "$CASK" "$CURRENT" "$LATEST" "$TEMPLATE" "${PAIRS# }"
+            else
+              ASSET=$(echo "$TEMPLATE" | sed "s/#{version}/$LATEST/g")
+              DIGEST=$(gh api "repos/$UPSTREAM/releases/tags/v$LATEST" \
+                --jq ".assets[] | select(.name==\"$ASSET\") | .digest")
+              case "$DIGEST" in
+                sha256:*) DIGEST="${DIGEST#sha256:}" ;;
+                *) echo "ERROR: $ASSET has no sha256 digest in $UPSTREAM v$LATEST" >&2; exit 1 ;;
+              esac
 
-            python3 .github/scripts/bump_cask.py \
-              "$CASK" "$CURRENT" "$LATEST" "$ASSET" "$DIGEST"
+              python3 .github/scripts/bump_cask.py \
+                "$CASK" "$CURRENT" "$LATEST" "$ASSET" "$DIGEST"
+            fi
 
             git add "$CASK"
             git commit -m "${NAME} ${LATEST}"
