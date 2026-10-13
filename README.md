@@ -14,17 +14,17 @@
 brew tap crazykun/ailater
 ```
 
-**推荐 Formula（命令行二进制）**：跟版最及时、无 .app 包裹，托盘工具直接运行即可常驻菜单栏；latermd 是 GUI 应用，只提供 Cask：
+**推荐 Cask（.app 应用）**：安装到 /Applications，Launchpad / 登录项可见，菜单栏/托盘工具的常规形态；latermd 是 GUI 应用，只提供 Cask：
 
 ```bash
-# Formula（推荐）：命令行二进制，托盘工具直接运行即可常驻菜单栏
-brew install crazykun/ailater/glmeter
-brew install crazykun/ailater/lscreen
-
-# Cask：安装 .app 到 /Applications（适合依赖 Launchpad / 登录项的工作流）
+# Cask（推荐）：安装 .app 到 /Applications
 brew install --cask crazykun/ailater/glmeter
 brew install --cask crazykun/ailater/lscreen
 brew install --cask crazykun/ailater/latermd
+
+# Formula：仅命令行二进制（适合脚本 / 无 GUI 场景）
+brew install crazykun/ailater/glmeter
+brew install crazykun/ailater/lscreen
 ```
 
 > 同一工具的 Formula 和 Cask 是两个独立包，**不要同时安装**——版本可能不同步，托盘类工具还会双开混淆。
