@@ -22,6 +22,12 @@ class Lscreen < Formula
     <<~EOS
       Run `lscreen` to stay in tray, `lscreen gui` to take a screenshot now.
       Docs: https://github.com/crazykun/LaterScreen
+
+      二进制未做代码签名：每次 `brew upgrade` 后 macOS 视为新应用，
+      「屏幕录制 / 麦克风」授权失效会重新弹窗。处理：完全退出 lscreen →
+      系统设置 ▸ 隐私与安全性 ▸ 屏幕录制 / 麦克风，删除旧条目 →
+      重启 lscreen 触发一次截图重新授权 → 授权后再重启一次 lscreen 生效
+      （常驻进程只在启动时读取授权）。
     EOS
   end
 
