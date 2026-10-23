@@ -8,9 +8,9 @@
 #
 
 cask "latermd" do
-  version "0.0.8"
+  version "0.0.9"
   # sha256 由 tap 仓库 auto-bump workflow 自动维护(源:Release asset digest)
-  sha256 "c3630530a436225392a4e2d34fbfaf8068772e836e19e5929e87d9b8fb2e9c92"
+  sha256 "760c823fae2d2e08b75ad0c0fb9a25924f91b9993331bb2c6fd6c7acdc7383e2"
 
   url "https://github.com/ailater/LaterMd/releases/download/v#{version}/latermd-v#{version}-universal2-apple-darwin.dmg"
   name "LaterMD"
