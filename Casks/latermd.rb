@@ -28,6 +28,11 @@ cask "latermd" do
 
   app "LaterMD.app"
 
+  # 终端 `latermd 文档.md` 直开文档(2026-10-23 mac 反馈 #3):brew 侧
+  # 由 cask 建软链到 brew bin(免管理员,uninstall 自动清);dmg 用户走
+  # 应用内菜单「安装命令行工具…」。argv 解析与单实例移交在应用侧。
+  binary "#{appdir}/LaterMD.app/Contents/MacOS/latermd"
+
   # 无签名证书路线:移除隔离属性,避免 Gatekeeper 报「已损坏,无法打开」
   postflight do
     system_command "/usr/bin/xattr",
