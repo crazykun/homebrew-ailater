@@ -1,16 +1,16 @@
 class Lscreen < Formula
   desc "Cross-platform screenshot & annotation tool (LaterScreen)"
   homepage "https://github.com/crazykun/LaterScreen"
-  version "0.11.8"
+  version "0.12.0"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/crazykun/LaterScreen/releases/download/v0.11.8/lscreen-v0.11.8-x86_64-apple-darwin.tar.gz"
-      sha256 "6fc8ad2d4dc8cf40825266073a01f8340f4301f8db4993af3e602a41b911fd32"
+      url "https://github.com/crazykun/LaterScreen/releases/download/v0.12.0/lscreen-v0.12.0-x86_64-apple-darwin.tar.gz"
+      sha256 "3df5b24b9004606865f1df6ecc97f20c4a8ea341bc1528830d0f781740eb9492"
     else
-      url "https://github.com/crazykun/LaterScreen/releases/download/v0.11.8/lscreen-v0.11.8-aarch64-apple-darwin.tar.gz"
-      sha256 "e480a4a06992a18cd0729e812203458ddde1371768dd35144a727224d778b713"
+      url "https://github.com/crazykun/LaterScreen/releases/download/v0.12.0/lscreen-v0.12.0-aarch64-apple-darwin.tar.gz"
+      sha256 "d402a00ccebc9314fb809cf4e57c2bc5c9785fa1bee976fefd6a8c61312b02dc"
     end
   end
 
