@@ -95,7 +95,9 @@ jobs:
             # 资产名从 cask url 模板推算（#{version} → 实际版本），与脚本内校验同源；
             # 模板含 #{arch} 的分架构 cask（sha256 arm:/intel: 双行）按架构逐个查 digest
             TEMPLATE=$(grep -oP '(?<=releases/download/v\#\{version\}/)[^"]+' "$CASK")
-            if grep -q '#\{arch\}' "$CASK"; then
+            # -F 定长串匹配：BRE 下 '#\{arch\}' 的 \{...\} 是非法区间量词，grep 报
+            # "Invalid content of \{\}" 且退出码 2，在 if 条件里被当成不匹配走错分支
+            if grep -qF '#{arch}' "$CASK"; then
               PAIRS=""
               for pair in arm:aarch64 intel:x86_64; do
                 KEY="${pair%%:*}"; ARCH="${pair##*:}"
