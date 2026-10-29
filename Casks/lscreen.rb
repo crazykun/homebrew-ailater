@@ -1,8 +1,8 @@
 cask "lscreen" do
-  version "0.12.0"
+  version "0.13.0"
   # v0.8.0 起 dmg 只出 universal2 单包（package.sh 双架构 lipo 合一），
   # 按架构拼 URL 的旧写法 404——cask 因此停在 0.6.0
-  sha256 "f5f6ca1c84417ac7429deeb3b543d0ca3229d6be37752cb108ecfeb923d53ca9"
+  sha256 "fb1a8ec82f4aa4988e0e568ede2f182f8ade37505bb6f0ef09fe69d0c71fd57d"
 
   url "https://github.com/crazykun/LaterScreen/releases/download/v#{version}/lscreen-v#{version}-universal2-apple-darwin.dmg"
   name "LaterScreen"
