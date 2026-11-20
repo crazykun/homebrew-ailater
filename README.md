@@ -7,6 +7,7 @@
 | [`lscreen`](https://github.com/crazykun/LaterScreen) | 跨平台截图标注工具：截图、标注、取色、二维码识别、OCR、录屏（Cask 装 LaterScreen.app） |
 | [`glmeter`](https://github.com/crazykun/GLMeter) | GLM Coding Plan 配额托盘监控：5 小时额度进度条、重置倒计时、一键/定时激活、`--check` 命令行模式（Cask 装 GLMeter.app） |
 | [`latermd`](https://github.com/ailater/LaterMd) | 跨平台 Markdown 知识工作台：双栏实时预览 / Live Preview、多标签、文件树、大纲、全文搜索、AI 流式写作（Mock 可试）、Git 只读集成、MCP 服务器（仅 Cask） |
+| [`laterterm`](https://github.com/ailater/LaterTerm) | 跨平台 GPU 终端：多标签、分屏、SSH / SFTP、ZMODEM / trzsz 文件传输、主题与设置热加载（Cask 装 LaterTerm.app） |
 
 ## 安装
 
@@ -14,13 +15,14 @@
 brew tap crazykun/ailater
 ```
 
-**推荐 Cask（.app 应用）**：安装到 /Applications，Launchpad / 登录项可见，菜单栏/托盘工具的常规形态；latermd 是 GUI 应用，只提供 Cask：
+**推荐 Cask（.app 应用）**：安装到 /Applications，Launchpad / 登录项可见，菜单栏/托盘工具的常规形态；`latermd` 和 `laterterm` 只提供 Cask：
 
 ```bash
 # Cask（推荐）：安装 .app 到 /Applications
 brew install --cask crazykun/ailater/glmeter
 brew install --cask crazykun/ailater/lscreen
 brew install --cask crazykun/ailater/latermd
+brew install --cask crazykun/ailater/laterterm
 
 # Formula：仅命令行二进制（适合脚本 / 无 GUI 场景）
 brew install crazykun/ailater/glmeter
@@ -59,3 +61,9 @@ brew update && brew upgrade
 - 设置里可配 AI API key（未配时走 Mock 演示）、主题/皮肤/密度、快捷键、MCP 服务器（默认关闭，仅绑 127.0.0.1）
 - 支持 `[[wikilink]]` 双向链接、HTML 导出、Git 只读状态/历史/diff/blame
 - 版本更新：`brew upgrade --cask crazykun/ailater/latermd`（livecheck 自动跟进 GitHub 最新 Release）
+
+## laterterm 使用
+
+- `laterterm` —— 从终端启动 LaterTerm；也可从 Launchpad 或 `/Applications/LaterTerm.app` 打开
+- 配置与主题位于 `~/Library/Application Support/laterterm`；TOTP / SSH 等密钥保存在 macOS 钥匙串，不写入配置文件
+- 版本更新：`brew upgrade --cask crazykun/ailater/laterterm`（livecheck 自动跟进 GitHub 最新 Release）

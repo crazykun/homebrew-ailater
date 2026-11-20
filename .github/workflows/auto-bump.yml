@@ -46,6 +46,7 @@ jobs:
           CASKS=(
             "glmeter:crazykun/GLMeter"
             "latermd:ailater/LaterMd"
+            "laterterm:ailater/LaterTerm"
             "lscreen:crazykun/LaterScreen"
           )
 
