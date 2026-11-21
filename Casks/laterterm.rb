@@ -1,7 +1,7 @@
 cask "laterterm" do
-  version "0.4.0"
+  version "0.0.1"
   # sha256 由 auto-bump 从 GitHub Release asset digest 自动维护
-  sha256 "cb31dd29c51e52da97cc76abcc221989b01fe26fff30b15e00b9afeaac2e904a"
+  sha256 "84b53cda4d39b108cbf42ceb7c9418ebdbd07cf88d301bc2a31ccf166d24c075"
 
   url "https://github.com/ailater/LaterTerm/releases/download/v#{version}/laterterm-v#{version}-universal2-apple-darwin.dmg"
   name "LaterTerm"
