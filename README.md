@@ -7,6 +7,7 @@
 | [`lscreen`](https://github.com/crazykun/LaterScreen) | 跨平台截图标注工具：截图、标注、取色、二维码识别、OCR、录屏（Cask 装 LaterScreen.app） |
 | [`glmeter`](https://github.com/crazykun/GLMeter) | GLM Coding Plan 配额托盘监控：5 小时额度进度条、重置倒计时、一键/定时激活、`--check` 命令行模式（Cask 装 GLMeter.app） |
 | [`latermd`](https://github.com/ailater/LaterMd) | 跨平台 Markdown 知识工作台：双栏实时预览 / Live Preview、多标签、文件树、大纲、全文搜索、AI 流式写作（Mock 可试）、Git 只读集成、MCP 服务器（仅 Cask） |
+| [`laterkey`](https://github.com/ailater/LaterKey) | 让 Windows 布局键盘在 macOS 上按 Windows 习惯工作：Ctrl↔⌘ 双向互换、Alt+Tab、Win+L 锁屏、F2/F5、Dock 再点最小化；菜单栏托盘逐项开关（Cask 装 LaterKey.app） |
 | [`laterterm`](https://github.com/ailater/LaterTerm) | 跨平台 GPU 终端：多标签、分屏、SSH / SFTP、ZMODEM / trzsz 文件传输、主题与设置热加载（Cask 装 LaterTerm.app） |
 
 ## 安装
@@ -23,6 +24,7 @@ brew install --cask crazykun/ailater/glmeter
 brew install --cask crazykun/ailater/lscreen
 brew install --cask crazykun/ailater/latermd
 brew install --cask crazykun/ailater/laterterm
+brew install --cask crazykun/ailater/laterkey
 
 # Formula：仅命令行二进制（适合脚本 / 无 GUI 场景）
 brew install crazykun/ailater/glmeter
