@@ -21,7 +21,7 @@ cask "laterkey" do
   binary "#{appdir}/LaterKey.app/Contents/MacOS/laterkey"
 
   # 自签名证书、未公证：移除隔离属性避免 Gatekeeper 提示「已损坏/无法验证开发者」
-  postflight_steps do
+  postflight do
     system_command "/usr/bin/xattr",
                    args: ["-dr", "com.apple.quarantine", "#{appdir}/LaterKey.app"]
   end

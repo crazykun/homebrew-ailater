@@ -34,7 +34,7 @@ cask "latermd" do
   binary "#{appdir}/LaterMD.app/Contents/MacOS/latermd"
 
   # 无签名证书路线:移除隔离属性,避免 Gatekeeper 报「已损坏,无法打开」
-  postflight_steps do
+  postflight do
     system_command "/usr/bin/xattr",
                    args: ["-dr", "com.apple.quarantine", "#{appdir}/LaterMD.app"]
   end
