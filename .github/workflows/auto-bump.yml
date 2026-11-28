@@ -45,6 +45,7 @@ jobs:
           # cask 名 : 上游仓库完整 slug
           CASKS=(
             "glmeter:crazykun/GLMeter"
+            "laterkey:ailater/LaterKey"
             "latermd:ailater/LaterMd"
             "laterterm:ailater/LaterTerm"
             "lscreen:crazykun/LaterScreen"
