@@ -1,7 +1,7 @@
 cask "laterkey" do
-  version "0.2.0"
+  version "0.3.0"
   # sha256 与 GitHub Release 的 dmg digest 一致（发布时更新）
-  sha256 "e3462767252c45572f0e2e5f2ddab5247baeebb8b7b4c15743ef2600b02a377a"
+  sha256 "09711704ec7109ab09f573946f985ba9b34fc4d8fb44fc347332f5d14926df96"
 
   url "https://github.com/ailater/LaterKey/releases/download/v#{version}/laterkey-v#{version}-universal2-apple-darwin.dmg"
   name "LaterKey"
