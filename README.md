@@ -4,11 +4,11 @@
 
 | 工具 | 说明 | 提供形式 | 系统要求 |
 |---|---|---|---|
-| [**LaterKey**](https://github.com/ailater/LaterKey) | 让 Windows 布局键盘在 Mac 上按 Windows 习惯工作：Ctrl+C/V 复制粘贴、Alt+Tab 切应用、Win+L 锁屏、Win+V 剪贴板历史、Ctrl+点击跳定义、Dock 再点最小化 | Cask | macOS（universal2，Intel / Apple Silicon 通吃） |
+| [**LaterKey**](https://github.com/ailater/LaterKey) | 让 Windows 布局键盘在 Mac 上按 Windows 习惯工作：Ctrl+C/V 复制粘贴、Alt+Tab 切应用、Win+L 锁屏、Win+V 剪贴板历史、任务管理器、Ctrl+点击跳定义、长按 Ctrl 快捷键速览、访达里 Ctrl+/ 打开终端、Dock 再点最小化 | Cask | macOS（universal2，Intel / Apple Silicon 通吃） |
 | [**LaterScreen**](https://github.com/crazykun/LaterScreen) | 跨平台截图标注：截图、标注、取色、二维码识别、OCR、录屏 | Cask / Formula | macOS 11+ |
 | [**GLMeter**](https://github.com/crazykun/GLMeter) | GLM Coding Plan 配额托盘监控：5 小时额度进度条、重置倒计时、一键/定时激活、`--check` 命令行模式 | Cask / Formula | macOS 11+ / Linux（Formula） |
 | [**LaterMD**](https://github.com/ailater/LaterMd) | Markdown 知识工作台：双栏实时预览、多标签、文件树、大纲、全文搜索、AI 流式写作、Git 只读集成、MCP 服务器 | Cask | macOS 14+ |
-| [**LaterTerm**](https://github.com/ailater/LaterTerm) | 跨平台 GPU 终端：多标签、分屏、SSH / SFTP、ZMODEM / trzsz 文件传输、主题与设置热加载 | Cask | macOS（universal2） |
+| [**LaterTerm**](https://github.com/ailater/LaterTerm) | 跨平台 GPU 终端：多标签、分屏、SSH / SFTP、ZMODEM / trzsz 文件传输、登录流自动应答、工作流编排、访达一键在当前目录打开（外部指定启动目录）、主题与设置热加载 | Cask | macOS（universal2） |
 
 ## 安装
 
@@ -43,8 +43,11 @@ brew install crazykun/ailater/glmeter
 
 - **Alt+Tab** 切应用、**Win+L** 锁屏、**Win+V** 剪贴板历史（文本图片都收，选中即贴回）
 - **Ctrl+←/→** 按词移动光标、**Ctrl+Backspace** 按词删除
+- **Ctrl+Alt+Del / Ctrl+Esc** 呼出强制退出（任务管理器）
 - **Ctrl+鼠标点击**：编辑器跳定义、浏览器新标签打开、访达多选
 - 访达 **F2** 重命名、浏览器 **F5** 刷新；再点一次前台 App 的 Dock 图标最小化窗口
+- **长按 Ctrl 2 秒**弹出快捷键速览浮窗（键指如飞：当前应用菜单快捷键 + 系统快捷键，点击行即回原应用执行）
+- 访达里 **Ctrl+/** 在当前文件夹打开终端（默认自动选：装了 LaterTerm 用 LaterTerm，否则系统自带终端；设置面板可下拉切换）
 
 每项都能在设置面板里单独开关、立即生效；**开机自启在面板「关于」里勾选「登录时自动启动」**，也可命令行 `laterkey install` / `laterkey uninstall`。
 
